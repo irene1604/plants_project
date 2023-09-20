@@ -20,7 +20,7 @@
   - [Augmentation de données](#sous-section-34)
   - [Création des ensembles d'entraînement, de validation et de test](#sous-section-35)
 - [Construction et entraînement du modèle](#section-4)
-  - [Sélection de l'architecture du modèle (CNN, DNN, MLP etc..)](#sous-section-41)
+  - [Sélection de l'architecture du modèle (CNN, DNN, MLP)](#sous-section-41)
   - [Mise en place du modèlel](#sous-section-42)
   - [Configuration de l'entraînement (hyperparamètres, fonction de perte, optimiseur)](#sous-section-43)
   - [Entraînement du modèle sur les données](#sous-section-44)
@@ -224,9 +224,47 @@ Les modifications apportées à chaque image dans le cadre de ces deux approches
 
 La figure ci-dessus illustre la première méthode, où à partir d'une image originale, 18 images différentes ont été générées.
 
-
 ###  <a name="sous-section-35">[Création des ensembles d'entraînement, de validation et de test](#sous-section-35)
+Pour éviter tout surapprentissage du modèle sur les données d'entraînement et garantir une évaluation précise de sa performance, l'ensemble de données a été divisé de la manière suivante :
 
+- 20 % du dataset ont été réservés pour l'ensemble de test et l'ensemble de validation, avec 10 % de données dans chaque ensemble.
+- Les 80 % restants du dataset ont été utilisés pour constituer l'ensemble d'entraînement.
+
+Cette division permet de s'assurer que le modèle est entraîné sur une grande partie des données tout en conservant des ensembles de test et de validation indépendants pour évaluer sa capacité à généraliser sur de nouvelles données. Elle contribue à minimiser les risques de surapprentissage, de biaisage du modèle et à obtenir une évaluation fiable de la performance du modèle.
+
+
+## <a name="section-4">[Construction et entraînement du modèle](#section-4)
+###  <a name="sous-section-41">[Sélection de l'architecture du modèle (CNN, DNN, MLP)](#sous-section-41)
+
+Plusieurs modèles sont disponibles pour modéliser cet ensemble de données, notamment les réseaux de neurones convolutionnels (CNN), les réseaux de neurones profonds (DNN) et les perceptrons multicouches (MLP). Cependant, dans le cas des MLP et des DNN, l'architecture du modèle se compose uniquement de couches entièrement connectées (FC) avec un certain nombre de neurones par couche. Bien que ces architectures soient généralement utilisées pour des problèmes de classification, elles ne sont pas idéales pour ce cas d'étude. Ces modèles peuvent facilement être biaisés et tomber dans une phase de surapprentissage importante.
+
+En revanche, l'architecture des CNN est conçue de manière à capturer en premier lieu les caractéristiques les plus importantes des images, telles que la forme, la couleur, la texture, etc., tout en effectuant la réduction de dimensions, ce qui est crucial pour la durée d'apprentissage, avant d'introduire des couches entièrement connectées. C'est ce qui distingue les CNN et les rend très efficaces dans le domaine de l'imagerie, de la vision par ordinateur, du transfert de style neuronal ou même de la détection et reconnaissance de visages. La puissance des réseaux de neurones convolutionnels sera exploitée ici pour obtenir de bonnes performances dans la classification des espèces de plantes.
+
+L'architecture de notre modèle est définit comme suite :
+
+                      1er couche de convolution                          2em couche de convolution
+img(16x16x3) -------> conv1() --------> MaxPoling(size=(2,2)) -------> conv2() --------> MaxPoling(size=(2,2)) -----+
+                          kernel = (11,11)                                kernel = (5,5)                            |
+                          stride = (4,4)                                  stride = (1,1)                            |
+                          ReLU                                            ReLU                                      |
+                          filtres= 96                                     filtres= 256                              |
+                                                                                                                    |
+                      4eme couche de convolution                         3eme couche convolution                    |
+              +-<----- conv1() <-------- MaxPoling(size=(1,1)) <------ conv1() <-------- MaxPoling(size=(1,1)) <----+
+              |          kernel = (3,3)                                  kernel = (3,3)                            
+              |          stride = (1,1)                                  stride = (1,1)
+              |          ReLu                                            ReLU                            
+              |          filtres= 384                                    filtres= 384 
+              |          dropout(rate=0.7) 
+              |
+              |
+              |           5eme couche de convolution               Couche full connected    couche classification
+              +--------> conv1() --------> MaxPoling(size=(1,1)) -----> FC(unités=4096) ----->FC(unités=12) ----> Probilities
+                          kernel = (3,3)                                dropout(rate=0.7)      Softmax                 
+                          stride = (1,1)                                ReLU                      
+                          filtres= 512
+                          ReLU             
+                          dropout(rate=0.7)                                    
 
 ## Acknowledgement :
 
