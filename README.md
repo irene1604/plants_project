@@ -175,7 +175,7 @@ Toutes les images ont été redimensionnées au format adapté, c'est-à-dire (1
 Cependant, il est important de noter que plusieurs autres formats d'images seront également produits afin d'enrichir la base de données et de tester différentes tailles pour notre modèle de deep learning. Cette approche nous permettra d'évaluer la performance du modèle sur des données de tailles variées et de choisir la meilleure taille en fonction des besoins spécifiques de l'application.
 
 ###  <a name="sous-section-32">[Normalisation des valeurs de pixel](#sous-section-32)
-Pour eviter l'explosion du gradient lors de l'optimisation du model de DL il est important de normaliser les données. données présentent dans ce dataset ont été normalisée par 255. 
+Pour eviter l'explosion du gradient lors de l'optimisation du model de DL il est important de normaliser. Les données présentent dans ce dataset ont été normalisée par 255. 
 
 Afin d'éviter l'explosion du gradient lors de l'optimisation du modèle de deep learning, il est impératif de normaliser les données. Dans le cadre de ce dataset, cette normalisation a été effectuée en divisant toutes les valeurs de pixel par **255.**.
 
