@@ -240,10 +240,29 @@ Plusieurs modèles sont disponibles pour modéliser cet ensemble de données, no
 
 En revanche, l'architecture des CNN est conçue de manière à capturer en premier lieu les caractéristiques les plus importantes des images, telles que la forme, la couleur, la texture, etc., tout en effectuant la réduction de dimensions, ce qui est crucial pour la durée d'apprentissage, avant d'introduire des couches entièrement connectées. C'est ce qui distingue les CNN et les rend très efficaces dans le domaine de l'imagerie, de la vision par ordinateur, du transfert de style neuronal ou même de la détection et reconnaissance de visages. La puissance des réseaux de neurones convolutionnels sera exploitée ici pour obtenir de bonnes performances dans la classification des espèces de plantes.
 
-L'architecture de notre modèle est définit comme suite :
+L'architecture de notre modèle est définie comme suit :
 
-![logo](/images/cnn_schema.png)
-                                 
+![logo](/images/cnn_schema.png)                                 
+
+La taille de l'image d'entrée est 160x160 avec 3 canaux. Cette image est soumise à 5 couches de convolution, suivies d'une couche entièrement connectée et d'une couche de classification.
+
+> La première couche de convolution (cov1) utilise un noyau de convolution de 11x11, un pas de 4x4 et comporte 96 filtres. Cela donne un total de (3x11x11x96 paramètres). La couche cov1 est suivie d'une opération de maxpooling 2D avec un pooling size de 2x2. La fonction d'activation utilisée dans cov1 est ReLU (Rectified Linear Unit).
+
+> La deuxième couche de convolution (cov2) utilise un noyau de 5x5, un pas de 1x1 et comporte 256 filtres. Après la cov2, nous avons une opération de maxpooling 2D avec un pooling size de 2x2. La fonction d'activation dans cov2 est ReLU.
+
+> Les troisième et quatrième couches de convolution (cov3 et cov4) utilisent un noyau de 3x3, un pas de 1x1 et comportent 384 filtres chacune. Après cov3 et cov4, nous avons une opération de maxpooling 2D avec un pooling size de 1x1. La fonction d'activation dans cov3 et cov4 est ReLU. Après le maxpooling, il y a une opération de dropout pour réduire le surapprentissage.
+
+> La cinquième couche de convolution (cov5) utilise un noyau de 3x3, un pas de 1x1 et comporte 512 filtres. Après cov5, nous avons une opération de maxpooling 2D avec un pooling size de 1x1. La fonction d'activation dans cov5 est ReLU. Après le maxpooling, il y a une opération de dropout pour réduire le surapprentissage.
+
+> Après les 5 couches de convolution, il y a une opération Flatten() pour aplatir les données et obtenir un vecteur de dimension (m, n), où m est le nombre d'images dans le train set et n est le nombre de paramètres après la 5ème couche de convolution, soit (384x3x3x512 paramètres).
+
+> Ensuite, une première couche entièrement connectée (FC) de 4096 neurones est ajoutée.
+
+> Enfin, une couche de classification constituée de 12 neurones est ajoutée pour la détection des 12 classes de notre échantillon.
+
+Cela définit l'architecture globale de notre modèle CNN.
+
+
 
 ## Acknowledgement :
 
