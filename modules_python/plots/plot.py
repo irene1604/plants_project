@@ -28,7 +28,8 @@ def hist_hist_plot(
         annot   : bool = False, 
         text    : bool = False,
         s       : list = ['$range = [90, 250]$', '$range = [90, 250]$'],
-        Types   : list = ["hist", "hist"]
+        Types   : list = ["hist", "hist"],
+        save    : bool = False
         ):
     
     error = None 
@@ -73,7 +74,7 @@ def hist_hist_plot(
         else: pass
 
         plt.show()
-
+        plt.savefig("./images/hist_hist.png") if save is True else ""
         return [ax for ax in axes]
     else:
         print("ERROR")
@@ -108,7 +109,8 @@ def hist_bar_plot(
         sort     : bool = False,
         rev    : bool = False,
         bar_bbox : tuple = (1.0, 0.5, 0.5, 0.5),
-        sc       : str ="w"
+        sc       : str ="w",
+        save     : bool = False
         ):
     from sklearn.preprocessing import LabelEncoder 
 
@@ -171,7 +173,7 @@ def hist_bar_plot(
         axes[i].set_ylabel(ylabel[i],  weight="bold")
         axes[i].set_title(titles[i],  weight="bold")
         
-
+    plt.savefig("./images/hist_bar.png") if save is True else ""
     plt.show() 
 
 def hist_pie_plot(
@@ -198,7 +200,8 @@ def hist_pie_plot(
         v_line  : float = 1.005, 
         Sobel_legends : list = None, 
         explode_id    : list = [],
-        size    : int  = 5539
+        size    : int  = 5539,
+        save    : bool  = False
         ):
 
     if grille is True : plt.grid()
@@ -261,7 +264,8 @@ def hist_pie_plot(
         axes.set_ylabel(ylabel[i],  weight="bold")
         axes.set_title(titles[i],  weight="bold")
         axes.set_ylim(y_lim)
-      
+    
+    plt.savefig("./images/hist_pie.png") if save is True else ""
     plt.show()
 
 def boxplot(X , figsize : tuple = (4, 4), 

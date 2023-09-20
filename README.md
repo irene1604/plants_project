@@ -4,12 +4,11 @@
 **Table des matières :**
 
 - [Introduction](#section-1)
-  - [Objectifs du pojet](#section-11)
-  - [Présentation du jeu de données](#section-12)
+  - [Objectifs du pojet](#sous-section-11)
+  - [Présentation du jeu de données](#sous-section-12)
 - [Analyse exploratoire des données (EDA)](#section-2)
-  - [Visualisation du jeu de données](#section-20)
-  - [Répartition des classes](#sous-section-21)
-  - [Visualisation des images de différentes classes](#sous-section-22)
+  - [Visualisation des images de différentes classes](#sous-section-20)
+  - [Pixelisation & Répartition des classes](#sous-section-21)
   - [Statistiques descriptives sur les données](#sous-section-23)
   - [Distribution des tailles d'images](#sous-section-24)
   - [Analyse de la couleur des images](#sous-section-25)
@@ -48,18 +47,18 @@
 Le jeu de données [Kaggle V2 Plant Seedlings Dataset](https://www.kaggle.com/datasets/vbookshelf/v2-plant-seedlings-dataset) offre une opportunité passionnante d'exploration et de comprendre la diversité des plantes à travers une approche informatique basé sur du **deep learning**. Composé d'une collection d'images de semis de plantes appartenant à différentes espèces, ce jeu de données représente un défi intéressant pour la classification automatisée des plantes. En utilisant des techniques de deep learning avancées(CNN, RNN, RCNN etc..) et de traitement d'images (Segmentation d'image), nous pouvons développer un modèle qui sera capable de reconnaître et de classer les plantes en fonction de leurs caractéristiques visuelles, détecter également les possibles 
 maladies pouvant attaquer ces dernière. 
 
-### <a name="section-11"></a>[Ojectifs du projet](#section-12)
+### <a name="sous-section-11"></a>[Ojectifs du projet](#sous-section-11)
 <p align="left"> L'objectif de ce projet est de créer un modèle de classification d'images capable de distinguer efficacement avec une très bonne précision entre les différentes espèces de plantes présentes dans le jeu de données. Pour ce faire, nous allons explorer les images, prétraiter les données, construire un modèle d'apprentissage profond, l'entraîner sur un ensemble de données d'entraînement et évaluer ses performances sur un ensemble de données de test et validation. Tout au long de ce projet, nous allons également mettre l'accent sur l'analyse des résultats pour mieux comprendre les performances du modèle et identifier les défis spécifiques posés par la classification des plantes et voir comment améliorer notre modèle. </p>
 
 <p align="left">Ce projet ne se limite pas seulement à la création d'un modèle de classification, mais il offre également une opportunité d'exploration visuelle des données, de compréhension des techniques d'augmentation de données et d'analyse des erreurs de classification. En fin de compte, notre objectif est d'utiliser les capacités de l'apprentissage automatique pour contribuer à la recherche en botanique et à la préservation de la biodiversité en identifiant automatiquement les espèces de plantes à partir d'images.</p>
 
 <p align="left">Dans les sections suivantes, nous allons plonger plus profondément dans les détails du jeu de données, de l'exploration des données à la construction du modèle, en passant par l'évaluation des performances. Nous espérons que ce projet servira de base pour d'autres applications de classification d'images dans le domaine de la botanique et de la biologie.</p>
 
-### <a name="section-11"></a>[Présentation du jeu de données](#section-12)
+### <a name="sous-section-12"></a>[Présentation du jeu de données](#sous-section-12)
 
 Le jeu de données [Kaggle V2 Plant Seedlings Dataset](https://www.kaggle.com/datasets/vbookshelf/v2-plant-seedlings-dataset) est un ensemble de données couramment utilisé dans le domaine de la vision par ordinateur [REF. 1](https://www.kaggle.com/code/allunia/computer-vision-with-seedlings/notebook) et de l'apprentissage automatique pour la classification d'images de plantes [REF. 2](https://www.researchgate.net/publication/332677611_An_Improved_Deep_Neural_Network_for_Classification_of_Plant_Seedling_Images). Ce jeu de données est hébergé sur la plateforme [Kaggle](https://www.kaggle.com/), qui est une communauté de data scientists et de chercheurs en science des données.
 
-Comme décrit plus haut dans la section <a name="section-11"></a>[Ojectif du project](#section-12), l'objectif principal de ce jeu de données est de permettre la classification automatique des semis de plantes en fonction de leur espèce. Il s'agit d'une tâche de classification multi-classe, où chaque image est étiquetée avec l'espèce de plante correspondante.
+Comme décrit plus haut dans la section <a name="section-11"></a>[Ojectifs du projet](#sous-section-11), l'objectif principal de ce jeu de données est de permettre la classification automatique des semis de plantes en fonction de leur espèce. Il s'agit d'une tâche de classification multi-classe, où chaque image est étiquetée avec l'espèce de plante correspondante.
 
 Le jeu de données comprend les éléments suivants :
 
@@ -91,8 +90,8 @@ Le jeu de données comprend les éléments suivants :
 |---------------|-------------|------------------|----------------|---------------|----------------|--------------|---------------|
 |  __[253]()__  | __[762]()__ | __[462.6]()__    | __[457.5]()__  | __[179.3]()__ | __[300.3]()__  |__[583.8]()__ | __[283.5]()__ |
 
-## <a name="section-1"></a>[Analyse exploratoire des données (EDA)](#section-2)
-### <a name="section-1"></a>[Visualisation du jeu de données](#section-20)
+## <a name="section-2"></a>[Analyse exploratoire des données (EDA)](#section-2)
+### <a name="sous-section-20"></a>[Visualisation des images de différentes classes](#sous-section-20)
 #### Espace colorimétrique RGB (Red, Green, Blue) :
 
 ![logo](/images/rgb.png)
@@ -109,7 +108,9 @@ Il est adapté à des tâches où la précision de la correspondance des couleur
 L'utilisation de deux espaces colorimétriques (RGB et LAB) peut être intéressante pour explorer différentes approches de prétraitement des images et évaluer comment ces espaces affectent les performances de votre modèle.  Nous allons voir comment l'utilisation de l'espace RGR2-LAB 
 peut faciliter la segmentation de l'image sémantique, et débruité une image avec une éfficacité redoutable.
 
-### <a name="section-1"></a>[Visualisation du jeu de données](#section-21)
+### <a name="sous-section-21"></a>[Pixelisations & Répartition des classes](#sous-section-21)
+![logo](/images/hist_bar.png)
+
 
 ## Strategies:
 
