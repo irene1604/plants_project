@@ -111,6 +111,17 @@ peut faciliter la segmentation de l'image sémantique, et débruité une image a
 ### <a name="sous-section-21"></a>[Pixelisations & Répartition des classes](#sous-section-21)
 ![logo](/images/hist_bar.png)
 
+Les deux graphiques ci-dessus présentent la répartition du nombre de pixels et du nombre de plantes par espèce. De ces graphiques, deux observations importantes se dégagent :
+
+> Étant donné que la taille d'un pixel est définie comme $pixel = (largeur * hauteur)$, on constate une concentration des valeurs autour de l'intervalle [0.1, 0.4] mega pixels, indiquant une certaine hétérogénéité dans les données, ainsi que la présence de quelques valeurs aberrantes donc la plus grande valeur est de 3.6 Mega Pixels.
+
+> On remarque également que le nombre d'exemplaires varie d'une espèce à l'autre avec une certaine disparité dans l'histogramme en bar.
+
+Pour obtenir un modèle de deep learning performant, il est essentiel que tous les échantillons aient la même taille(normalisation du dataset). Par conséquent, la normalisation de ce jeu de données est nécessaire, tout comme l'utilisation de la data augmentation(**voir plus tard**).
+
+Afin d'atteindre l'objectif d'une taille d'échantillonnage uniforme, la normalisation des données est cruciale. La data augmentation joue également un rôle fondamental dans ce processus. En utilisant des techniques de data augmentation telles que la rotation, le redimensionnement et le recadrage, nous pouvons générer des versions modifiées des images existantes, les rendant cohérentes en termes de taille.
+
+Cela permet non seulement d'améliorer la qualité et la diversité du jeu de données, mais aussi d'augmenter la robustesse du modèle de deep learning en l'entraînant sur une variété d'angles et de perspectives des données. Ainsi, un modèle formé sur un jeu de données normalisé et augmenté est plus susceptible de généraliser correctement lorsqu'il est confronté à de nouvelles données.
 
 ## Strategies:
 
