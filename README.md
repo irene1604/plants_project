@@ -242,29 +242,8 @@ En revanche, l'architecture des CNN est conçue de manière à capturer en premi
 
 L'architecture de notre modèle est définit comme suite :
 
-                      1er couche de convolution                          2em couche de convolution
-img(16x16x3) -------> conv1() --------> MaxPoling(size=(2,2)) -------> conv2() --------> MaxPoling(size=(2,2)) -----+
-                          kernel = (11,11)                                kernel = (5,5)                            |
-                          stride = (4,4)                                  stride = (1,1)                            |
-                          ReLU                                            ReLU                                      |
-                          filtres= 96                                     filtres= 256                              |
-                                                                                                                    |
-                      4eme couche de convolution                         3eme couche convolution                    |
-              +-<----- conv1() <-------- MaxPoling(size=(1,1)) <------ conv1() <-------- MaxPoling(size=(1,1)) <----+
-              |          kernel = (3,3)                                  kernel = (3,3)                            
-              |          stride = (1,1)                                  stride = (1,1)
-              |          ReLu                                            ReLU                            
-              |          filtres= 384                                    filtres= 384 
-              |          dropout(rate=0.7) 
-              |
-              |
-              |           5eme couche de convolution               Couche full connected    couche classification
-              +--------> conv1() --------> MaxPoling(size=(1,1)) -----> FC(unités=4096) ----->FC(unités=12) ----> Probilities
-                          kernel = (3,3)                                dropout(rate=0.7)      Softmax                 
-                          stride = (1,1)                                ReLU                      
-                          filtres= 512
-                          ReLU             
-                          dropout(rate=0.7)                                    
+![logo](/images/cnn_schema.png)
+                                 
 
 ## Acknowledgement :
 
