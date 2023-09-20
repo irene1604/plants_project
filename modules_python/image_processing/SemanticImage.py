@@ -72,44 +72,49 @@ def SemanticImage(
             for j in id_sel:
                 X           = data['X'][j][index].astype(dtype=dtype).copy()
                 mask        = get_mask(img=X[..., channel], threshold=threshold, radius=radius, method=method)
-                mask        = mask * 1.
-                img         = data['images'][j][index].astype(dtype=dtype).copy()
-                shape       = img.shape
 
-                if deep_mask is True : mask      = erorsion_and_dilation(mask, shape=kernel)
-                else: pass
-            
-                img[..., 0] = img[..., 0] * mask * 1.
-                img[..., 1] = img[..., 1] * mask * 1.
-                img[..., 2] = img[..., 2] * mask * 1.
+                if mask is not None:
+                    mask        = mask * 1.
+                    img         = data['images'][j][index].astype(dtype=dtype).copy()
+                    shape       = img.shape
 
-                new_img = img.reshape((1, shape[0], shape[1], 3))
-                new_img = change_bg(imgs=new_img, lower_color=lower_color, upper_color=upper_color)
-
-                if bg == 'white': 
-                    for i in range(1):   
-                        axes[idd].imshow(new_img[0])
-                        axes[idd].set_title(legend[j], fontsize="small")
-                        axes[idd].axis("off")
+                    if deep_mask is True : mask      = erorsion_and_dilation(mask, shape=kernel)
+                    else: pass
                 
-                if bg == 'black': 
-                    for i in range(1): 
-                        axes[idd].axis("off")  
-                        axes[idd].imshow(img)
-                        axes[idd].set_title(legend[j], fontsize="small")
+                    img[..., 0] = img[..., 0] * mask * 1.
+                    img[..., 1] = img[..., 1] * mask * 1.
+                    img[..., 2] = img[..., 2] * mask * 1.
 
-                if bg == "mask":
-                    for i in range(1): 
-                        axes[idd].axis("off")  
-                        axes[idd].imshow(mask)
-                        axes[idd].set_title(legend[j], fontsize="small")
+                    new_img = img.reshape((1, shape[0], shape[1], 3))
+                    new_img = change_bg(imgs=new_img, lower_color=lower_color, upper_color=upper_color)
 
-                idd += 1
+                    if bg == 'white': 
+                        for i in range(1):   
+                            axes[idd].imshow(new_img[0])
+                            axes[idd].set_title(legend[j], fontsize="small")
+                            axes[idd].axis("off")
+                    
+                    if bg == 'black': 
+                        for i in range(1): 
+                            axes[idd].axis("off")  
+                            axes[idd].imshow(img)
+                            axes[idd].set_title(legend[j], fontsize="small")
+
+                    if bg == "mask":
+                        for i in range(1): 
+                            axes[idd].axis("off")  
+                            axes[idd].imshow(mask)
+                            axes[idd].set_title(legend[j], fontsize="small")
+
+                    idd += 1
+                else: break
             plt.show()
 
         elif bg == "all":
-            fig, axes = plt.subplots(nrow, 6, figsize=figsize) 
-            names = ['images', "X", "mask", "black", "white"]
+            error       = None 
+            fig, axes   = plt.subplots(nrow, 6, figsize=figsize) 
+            names       = ['images', "X", "mask", "black", "white"]
+
             for k in range(nrow):
                 idd     = 0
                 bg      = names[k]
@@ -118,52 +123,60 @@ def SemanticImage(
                     if bg not in ['X', 'images']:
                         X           = data['X'][j][index].astype(dtype=dtype).copy()
                         mask        = get_mask(img=X[..., channel], threshold=threshold, radius=radius, method=method)
-                        mask        = mask * 1.
-                        img         = data['images'][j][index].astype(dtype=dtype).copy()
-                        shape       = img.shape
+                        
+                        if mask is not None:
+                            mask        = mask * 1.
+                            img         = data['images'][j][index].astype(dtype=dtype).copy()
+                            shape       = img.shape
 
-                        if deep_mask is True : mask      = erorsion_and_dilation(mask, shape=kernel)
-                        else: pass
+                            if deep_mask is True : mask      = erorsion_and_dilation(mask, shape=kernel)
+                            else: pass
+                        
+                            img[..., 0] = img[..., 0] * mask * 1.
+                            img[..., 1] = img[..., 1] * mask * 1.
+                            img[..., 2] = img[..., 2] * mask * 1.
+
+                            new_img = img.reshape((1, shape[0], shape[1], 3))
+                            new_img = change_bg(imgs=new_img, lower_color=lower_color, upper_color=upper_color)
+                        else:
+                            error = True 
+                            break 
                     
-                        img[..., 0] = img[..., 0] * mask * 1.
-                        img[..., 1] = img[..., 1] * mask * 1.
-                        img[..., 2] = img[..., 2] * mask * 1.
-
-                        new_img = img.reshape((1, shape[0], shape[1], 3))
-                        new_img = change_bg(imgs=new_img, lower_color=lower_color, upper_color=upper_color)
-
-                    if bg == 'white': 
-                        for i in range(1):   
-                            axes[k, idd].imshow(new_img[0] )
-                            axes[k, idd].axis("off")
+                    if error is None:
+                        if bg == 'white': 
+                            for i in range(1):   
+                                axes[k, idd].imshow(new_img[0] )
+                                axes[k, idd].axis("off")
+                        
+                        if bg == 'black': 
+                            for i in range(1): 
+                                axes[k, idd].axis("off")  
+                                axes[k, idd].imshow(img)
+                                
+                        if bg == "mask":
+                            for i in range(1): 
+                                axes[k, idd].axis("off")  
+                                axes[k, idd].imshow(mask)
+                                
+                        if bg == "X":
+                            XX = data["X"][j][index] 
+                            for i in range(1): 
+                                axes[k, idd].axis("off")  
+                                axes[k, idd].imshow(XX[..., 1], cmap = cmap, interpolation="nearest")
+                                
+                        if bg == "images" : 
+                            XX = data[bg][j][index] 
+                            for i in range(1): 
+                                axes[k, idd].axis("off")  
+                                axes[k, idd].imshow(XX)
+                                
+                        if k == 0 : axes[k, idd].set_title(legend[j], fontsize="small")
+                        idd += 1
+                    else : break
                     
-                    if bg == 'black': 
-                        for i in range(1): 
-                            axes[k, idd].axis("off")  
-                            axes[k, idd].imshow(img)
-                             
-                    if bg == "mask":
-                        for i in range(1): 
-                            axes[k, idd].axis("off")  
-                            axes[k, idd].imshow(mask)
-                             
-                    if bg == "X":
-                        XX = data["X"][j][index] 
-                        for i in range(1): 
-                            axes[k, idd].axis("off")  
-                            axes[k, idd].imshow(XX[..., 1], cmap = cmap, interpolation="nearest")
-                            
-                    if bg == "images" : 
-                        XX = data[bg][j][index] 
-                        for i in range(1): 
-                            axes[k, idd].axis("off")  
-                            axes[k, idd].imshow(XX)
-                            
-                    if k == 0 : axes[k, idd].set_title(legend[j], fontsize="small")
-                    idd += 1
-                
-            plt.savefig(f"./images/{fig_name}")
-            plt.show()
+            if error is None:
+                plt.savefig(f"./images/{fig_name}")
+                plt.show()
         else : 
             error = fg.rbg(255, 0, 255) + " bg " + fg.rbg(255, 255, 255) + "not in" + fg.rbg(255, 0, 0) + " ['white', 'black', 'all'] " + init.reset
             print(error)

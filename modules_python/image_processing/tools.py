@@ -48,18 +48,24 @@ def get_mask(img : np.ndarray, threshold : list = [10, 50] , radius: float = 2, 
     from skimage.morphology import closing
     from skimage.morphology import disk  
 
-    # numpy method
-    if method == "numpy": filter = ( img > threshold[0]  ) & ( img < threshold[1] ) 
-    # where method
-    else: filter = np.where( ( img > threshold[0]  ) & ( img < threshold[1] ), 1, 0)
+    if method in ['numpy', "where"]:
+        # numpy method
+        if method == "numpy": filter = ( img > threshold[0]  ) & ( img < threshold[1] ) 
+        # where method
+        else: filter = np.where( ( img > threshold[0]  ) & ( img < threshold[1] ), 1, 0)
 
-    # create a disk
-    S = disk(radius)
-    # create filter by comparing the values close to S or inside the disk
-    filter = closing(filter, S)
+        # create a disk
+        S = disk(radius)
+        # create filter by comparing the values close to S or inside the disk
+        filter = closing(filter, S)
 
-    # returning values
-    return filter
+        # returning values
+        return filter
+    else: 
+        print(
+            fg.rbg(255,0,255) + "method" + fg.rbg(255,255,255) + " not in " + fg.rbg(255,0,0) * "['numpu', 'where']" + init.reset
+        )
+        return None 
 
 def erorsion_and_dilation(img : np.ndarray, show : bool = False, shape=(3,3)) -> np.ndarray:
     """ 
