@@ -11,8 +11,8 @@
   - [Pixelisation & Répartition des classes](#sous-section-21)
   - [Statistiques descriptives sur les données](#sous-section-22)
   - [Distribution des tailles d'images](#sous-section-23)
-  - [Ration H/L & Canaux](#sous-section-24)
-  - [Analyse de la couleur des images](#sous-section-25)
+  - [Ratio H/L & Canaux RGBA](#sous-section-24)
+  - [Histogrammes de Couleurs](#sous-section-25)
 - [Prétraitement des données](#section-3)
   - [Redimensionnement des images](#sous-section-31)
   - [Normalisation des valeurs de pixel](#sous-section-32)
@@ -129,7 +129,7 @@ Les deux premiers graphiques ci-dessus présentent la répartition des hauteurs 
 
 > Variabilité des dimensions : Les images du dataset ne présentent pas toutes les mêmes dimensions. Par conséquent, il est nécessaire de les redimensionner à la même taille avant d'entreprendre toute opération de modélisation.
 
-> Choix de la taille de redimensionnement : Les données montrent une concentration autour de [100, 400], avec des pics plus marqués. C'est à ce stade qu'il est crucial de décider de la taille de redimensionnement. Dans ce contexte, une taille de redimensionnement de (160, 160) a été choisie. Cependant, plusieurs versions du dataset seront générées avec des tailles de redimensionnement différentes afin d'obtenir des données de qualité ainsi qu'une variété de données de qualité.
+> Choix de la taille de redimensionnement : Les données montrent une concentration autour de [90, 250], avec des pics plus marqués. C'est à ce stade qu'il est crucial de décider de la taille de redimensionnement. Dans ce contexte, une taille de redimensionnement de (160, 160) a été choisie. Cependant, plusieurs versions du dataset seront générées avec des tailles de redimensionnement différentes afin d'obtenir des données de qualité ainsi qu'une variété de données de qualité.
 
 La diversité des tailles d'images peut poser des défis pour le traitement numérique, car de nombreuses opérations de modélisation nécessitent des images de taille uniforme. Ainsi, le redimensionnement des images pour les adapter à une taille commune, telle que (160, 160, 3), est essentiel pour garantir la cohérence dans l'ensemble du dataset.
 
@@ -138,13 +138,54 @@ Cependant, il est important de noter que différentes tailles de redimensionneme
 En fin de compte, le choix de la taille de redimensionnement dépend des compromis entre la qualité, la vitesse et les ressources disponibles. Il est également judicieux de générer plusieurs versions du dataset avec différentes tailles de redimensionnement pour répondre à diverses exigences d'analyse et d'apprentissage profond.
 
 
-### <a name="sous-section-24"></a>[Ration H/L & Canaux](#sous-section-24)
+### <a name="sous-section-24"></a>[Ratio H/L & Canaux RGBA](#sous-section-24)
 ![logo](/images/hist_pie.png)
 
+Les deux graphiques ci-dessus présentent la répartition du rapport *Largeur/Hauteur* et du nombre de canaux **RGBA** présents dans chaque espèce de plantes ([voir également ces valeurs dans le tableau plus haut]()). De ces graphiques, deux observations importantes se dégagent :
 
-## Strategies:
+> Le premier graphique confirme ce qui a été mentionné précédemment, à savoir que la grande majorité des images ont une relation *n_W ≈ n_H*. Cependant, ce n'est pas le cas pour toutes les images et espèces. C'est pourquoi il est impératif de redimensionner toutes les images à une taille fixe où *n_H = n_W* pour garantir des dimensions uniformes pour toutes les images, quelle que soit l'espèce de plantes.
 
-## Methods :
+> Nous constatons que les images de chaque espèce ne sont pas toutes au format **RGB**. Certaines sont au format **RGBA=RGB+alpha**, ce qui pose un problème pour assurer une cohérence dans la représentation des couleurs. Il est donc nécessaire de retirer le canal *alpha* pour passer de **RGBA** à **RGB**.
+
+En ce qui concerne la première observation, il est essentiel de garantir que toutes les images, indépendamment de leur espèce, aient des dimensions égales. Cela permet une manipulation uniforme lors du traitement numérique et de la formation de modèles d'apprentissage profond.
+
+Quant à la deuxième observation, la présence des canaux *alpha* dans certaines images peut créer une incohérence dans la représentation des couleurs, car ces canaux *alpha* correspondent à la transparence des pixels, ce qui n'est généralement pas nécessaire dans le contexte du traitement d'images de plantes. Par conséquent, il est recommandé de retirer ce canal pour toutes les images, passant ainsi au bon format *RGB*.
+
+En effectuant ces transformations préliminaires sur les données, nous nous assurons que les images sont prêtes à être utilisées de manière efficace dans la création d'un modèle de deep learning. Cela garantit une représentation cohérente des couleurs et des dimensions, favorisant ainsi une analyse homogène des données.
+
+### <a name="sous-section-25"></a>[Histogrammes de Couleurs](#sous-section-25)
+![logo](/images/hist_color.png)
+
+L'histogramme de couleurs est un outil très puissant permettant de visualiser l'intensité en fonction de la pixélisation des couleurs. Il est généralement utilisé dans le traitement d'image pour manipuler les trois canaux (r, g, b) en fragmentant l'image. Cela sert d'abord à sélectionner le canal le mieux adapté pour la séparation des couleurs, puis à choisir un domaine de valeurs ou à appliquer un filtre de fragmentation.
+
+Sur la figure ci-dessus, sont représentées 12 figures différentes regroupées en 3 classes **la luminosité (L), l'axe vert-rouge (A) et l'axe bleu-jaune (B)** qui représentent l'histogramme de couleurs de 4 espèces de plantes différentes. Il est important de noter que pour effectuer la segmentation des couleurs, plusieurs pics doivent apparaître dans ces histogrammes pour mieux catégoriser les couleurs. Ainsi, plus un histogramme présente de pics, plus il est facile de distinguer les couleurs apparentes et plus il est facile de créer la fragmentation. En observant davantage les figures ci-dessus, on peut se rendre compte que les histogrammes obtenus dans l'espace RGB2-LAB, contrairement à l'espace RGB, peuvent inclure des valeurs négatives, ce qui indique que le format de couleurs n'est pas RGB, mais plutôt RGB2-LAB. Cela est particulièrement important pour comprendre les propriétés des couleurs dans ce contexte.
+Notre segmentation sur l'image originale (RGB) a été effectuée sur ce canal (canal 1), comme vous le verrez par la suite.
+
+Nous verrons dans la section [Prétraitement des données](#section-3) comment choisir :
+- le canal optimal
+- le domaine de valeurs pour créer un filtre ultra puissant permettant de débruiter une image en profondeur.
+
+## <a name="section-3">[Prétraitement des données](#section-3)
+###  <a name="sous-section-31">[Redimensionnement des images](#sous-section-31)
+Toutes les images on été redimentionées au format adapté à savoir (160 x 160 )  soit 25600 pixels par image. ce pendant dd'autres formats seront produits pour enrichir le la base donnée et tester plusieurs taille différentes pour notre modèle de deep learning.
+
+Toutes les images ont été redimensionnées au format adapté, c'est-à-dire (160 x 160), ce qui équivaut à un total de 25 600 pixels par image. Cette uniformisation des dimensions garantit une cohérence dans le traitement numérique et facilite la création de modèles d'apprentissage profond.
+
+Cependant, il est important de noter que plusieurs autres formats d'images seront également produits afin d'enrichir la base de données et de tester différentes tailles pour notre modèle de deep learning. Cette approche nous permettra d'évaluer la performance du modèle sur des données de tailles variées et de choisir la meilleure taille en fonction des besoins spécifiques de l'application.
+
+###  <a name="sous-section-32">[Normalisation des valeurs de pixel](#sous-section-32)
+Pour eviter l'explosion du gradient lors de l'optimisation du model de DL il est important de normaliser les données. données présentent dans ce dataset ont été normalisée par 255. 
+
+Afin d'éviter l'explosion du gradient lors de l'optimisation du modèle de deep learning, il est impératif de normaliser les données. Dans le cadre de ce dataset, cette normalisation a été effectuée en divisant toutes les valeurs de pixel par **255.**.
+
+La normalisation des données est une étape fondamentale pour mettre toutes les caractéristiques à la même échelle, ce qui facilite la convergence de l'algorithme d'optimisation (**Descente du gradient**) lors de l'entraînement du modèle. En divisant les valeurs par 255, nous ramenons les pixels à une échelle de -1 à 1 (RGR2-LAB) or 0 et 1(RGB), ce qui est particulièrement important dans le cas des images en couleurs où chaque canal de couleur (rouge, vert, bleu) varie de 0 à 255.
+
+Cette étape de normalisation garantit que le modèle peut apprendre efficacement à partir des données sans être perturbé par des valeurs d'échelle différentes. Elle contribue à stabiliser le processus d'entraînement, minimiser la variance et à améliorer la performance globale du modèle de deep learning en permettant une convergence plus rapide et plus stable lors de l'optimisation.
+
+###  <a name="sous-section-33">[Augmentation de données (le cas échéant)](#sous-section-33)
+
+###  <a name="sous-section-33">[Segmentation de l'image sémantique](#sous-section-33)
+
 
 ## Acknowledgement :
 
