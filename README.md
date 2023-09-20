@@ -207,6 +207,7 @@ Sur cette figure, les différentes étapes de la segmentation d'image sont déta
 > Le dernier panneau est obtenu en remplaçant simplement le fond noir par du blanc. Pour y parvenir, il est nécessaire de délimiter le domaine du noir, qui est généralement compris entre 0 et 30 en termes de valeurs de pixels.En effectuant cette opération, le fond noir présent dans l'image précédente est remplacé par du blanc, créant ainsi un contraste clair entre les objets d'intérêt et l'arrière-plan. Cette étape permet de rendre les objets d'intérêt encore plus visibles et de faciliter la distinction entre eux et l'arrière-plan. Le dernier panneau ainsi obtenu représente une image nette et bien définie, où les objets d'intérêt ressortent clairement sur un fond blanc. Ces images (fonds noirs et blancs) servira de donnée d'entraînement pour notre modèle de deep learning, lui permettant de mieux comprendre et reconnaître les différentes classes de plantes.
 
 ###  <a name="sous-section-34">[Augmentation de données](#sous-section-34)
+![logo](/images/img_aug.png)
 
 ###  <a name="sous-section-35">[Création des ensembles d'entraînement, de validation et de test](#sous-section-35)
 

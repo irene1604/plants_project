@@ -1,5 +1,6 @@
 import numpy as np
 from modules_python.image_processing.tools import get_mask,  erorsion_and_dilation, Best_mask
+from modules_python.config.config import init, fg
 
 def ImageSegmentation(
         img         : np.ndarray, 
@@ -37,7 +38,6 @@ def ImageSegmentation(
 
     >>> new_img = Semantic_image_segmentation(img = img, threshold=[10, 100], radius=3, shape=(4, 4), dil_and_err = True, axis=1,method='where')
     """
-    from config import init, fg
 
     if type(img) == type(np.array([0])) : 
         filter_img  = None 
