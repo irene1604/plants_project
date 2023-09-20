@@ -19,7 +19,11 @@ def SemanticImage(
         id_sel      : list  = [6, 7, 8, 9, 10, 11],
         deep_mask   : bool  = False,
         kernel      : tuple = (2, 2),
-        dtype       : float = np.float32
+        dtype       : float = np.float32,
+        figsize     : float = (12,8),
+        nrow        : int   =  5,
+        fig_name    : str   = "all_process.png",
+        cmap        : str   = 'RdYlBu', 
         ):
     
     """
@@ -38,7 +42,7 @@ def SemanticImage(
     * method is string value that takes 2 values : numpy and where is the type of calculation
     * upper_color is the maximal channel color and should hace (c, ) dimension 
     * lower_color is the maximal channel color and should hace (c, ) dimension
-    * bg = "black", "white" or "mask"
+    * bg = "black", "white" or "mask" or "all"
     * index : is an integer type used to select à particular image
     * legend is a list used for title images
     * kernel : is a tuple used to create a deep mask 
@@ -63,7 +67,7 @@ def SemanticImage(
         else: legend = id_sel.copy()
 
         if bg in ["white", "black", "mask"] : 
-            fig, axes = plt.subplots(1, 6, figsize=(12, 4)) 
+            fig, axes = plt.subplots(1, 6, figsize=figsize) 
 
             for j in id_sel:
                 X           = data['X'][j][index].astype(dtype=dtype).copy()
@@ -102,7 +106,65 @@ def SemanticImage(
 
                 idd += 1
             plt.show()
+
+        elif bg == "all":
+            fig, axes = plt.subplots(nrow, 6, figsize=figsize) 
+            names = ['images', "X", "mask", "black", "white"]
+            for k in range(nrow):
+                idd     = 0
+                bg      = names[k]
+
+                for j in id_sel:
+                    if bg not in ['X', 'images']:
+                        X           = data['X'][j][index].astype(dtype=dtype).copy()
+                        mask        = get_mask(img=X[..., channel], threshold=threshold, radius=radius, method=method)
+                        mask        = mask * 1.
+                        img         = data['images'][j][index].astype(dtype=dtype).copy()
+                        shape       = img.shape
+
+                        if deep_mask is True : mask      = erorsion_and_dilation(mask, shape=kernel)
+                        else: pass
+                    
+                        img[..., 0] = img[..., 0] * mask * 1.
+                        img[..., 1] = img[..., 1] * mask * 1.
+                        img[..., 2] = img[..., 2] * mask * 1.
+
+                        new_img = img.reshape((1, shape[0], shape[1], 3))
+                        new_img = change_bg(imgs=new_img, lower_color=lower_color, upper_color=upper_color)
+
+                    if bg == 'white': 
+                        for i in range(1):   
+                            axes[k, idd].imshow(new_img[0] )
+                            axes[k, idd].axis("off")
+                    
+                    if bg == 'black': 
+                        for i in range(1): 
+                            axes[k, idd].axis("off")  
+                            axes[k, idd].imshow(img)
+                             
+                    if bg == "mask":
+                        for i in range(1): 
+                            axes[k, idd].axis("off")  
+                            axes[k, idd].imshow(mask)
+                             
+                    if bg == "X":
+                        XX = data["X"][j][index] 
+                        for i in range(1): 
+                            axes[k, idd].axis("off")  
+                            axes[k, idd].imshow(XX[..., 1], cmap = cmap, interpolation="nearest")
+                            
+                    if bg == "images" : 
+                        XX = data[bg][j][index] 
+                        for i in range(1): 
+                            axes[k, idd].axis("off")  
+                            axes[k, idd].imshow(XX)
+                            
+                    if k == 0 : axes[k, idd].set_title(legend[j], fontsize="small")
+                    idd += 1
+                
+            plt.savefig(f"./images/{fig_name}")
+            plt.show()
         else : 
-            error = fg.rbg(255, 0, 255) + " bg " + fg.rbg(255, 255, 255) + "not in" + fg.rbg(255, 0, 0) + " ['white', 'black'] " + init.reset
+            error = fg.rbg(255, 0, 255) + " bg " + fg.rbg(255, 255, 255) + "not in" + fg.rbg(255, 0, 0) + " ['white', 'black', 'all'] " + init.reset
             print(error)
     else:  print(error)

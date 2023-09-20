@@ -16,8 +16,9 @@
 - [Prétraitement des données](#section-3)
   - [Redimensionnement des images](#sous-section-31)
   - [Normalisation des valeurs de pixel](#sous-section-32)
-  - [Augmentation de données (le cas échéant)](#sous-section-33)
-  - [Création des ensembles d'entraînement, de validation et de test](#sous-section-34)
+  - [Augmentation de données](#sous-section-33)
+  - [Segmentation de l'image sémantique](#sous-section-34)
+  - [Création des ensembles d'entraînement, de validation et de test](#sous-section-35)
 - [Construction et entraînement du modèle](#section-4)
   - [Sélection de l'architecture du modèle (CNN, DNN, MLP etc..)](#sous-section-41)
   - [Mise en place du modèlel](#sous-section-42)
@@ -182,9 +183,12 @@ La normalisation des données est une étape fondamentale pour mettre toutes les
 
 Cette étape de normalisation garantit que le modèle peut apprendre efficacement à partir des données sans être perturbé par des valeurs d'échelle différentes. Elle contribue à stabiliser le processus d'entraînement, minimiser la variance et à améliorer la performance globale du modèle de deep learning en permettant une convergence plus rapide et plus stable lors de l'optimisation.
 
-###  <a name="sous-section-33">[Augmentation de données (le cas échéant)](#sous-section-33)
-
 ###  <a name="sous-section-33">[Segmentation de l'image sémantique](#sous-section-33)
+![logo](/images/all_images.png)
+
+###  <a name="sous-section-34">[Augmentation de données](#sous-section-34)
+
+###  <a name="sous-section-35">[Création des ensembles d'entraînement, de validation et de test](#sous-section-35)
 
 
 ## Acknowledgement :
