@@ -11,7 +11,8 @@
   - [Pixelisation & Répartition des classes](#sous-section-21)
   - [Statistiques descriptives sur les données](#sous-section-22)
   - [Distribution des tailles d'images](#sous-section-23)
-  - [Analyse de la couleur des images](#sous-section-24)
+  - [Ration H/L & Canaux](#sous-section-24)
+  - [Analyse de la couleur des images](#sous-section-25)
 - [Prétraitement des données](#section-3)
   - [Redimensionnement des images](#sous-section-31)
   - [Normalisation des valeurs de pixel](#sous-section-32)
@@ -121,6 +122,24 @@ Afin d'atteindre l'objectif d'une taille d'échantillonnage uniforme, la normali
 
 ### <a name="sous-section-23"></a>[Distribution des tailles d'images](#sous-section-23)
 ![logo](/images/hist_hist.png)
+
+Les deux premiers graphiques ci-dessus présentent la répartition des hauteurs et des largeurs des images de différentes espèces de plantes. De ces graphiques, trois observations importantes émergent :
+
+> Hauteur et largeur similaires : À une exception près, la hauteur et la largeur présentent des variations similaires, suggérant ainsi que la largeur est approximativement égale à la hauteur pour la plupart des images du dataset. En notant n_H et n_W comme les hauteurs et largeurs de chaque image, cela peut être exprimé comme (m, n_H, n_W, n_C) ≈ (m, n_H, n_H, n_C).
+
+> Variabilité des dimensions : Les images du dataset ne présentent pas toutes les mêmes dimensions. Par conséquent, il est nécessaire de les redimensionner à la même taille avant d'entreprendre toute opération de modélisation.
+
+> Choix de la taille de redimensionnement : Les données montrent une concentration autour de [100, 400], avec des pics plus marqués. C'est à ce stade qu'il est crucial de décider de la taille de redimensionnement. Dans ce contexte, une taille de redimensionnement de (160, 160) a été choisie. Cependant, plusieurs versions du dataset seront générées avec des tailles de redimensionnement différentes afin d'obtenir des données de qualité ainsi qu'une variété de données de qualité.
+
+La diversité des tailles d'images peut poser des défis pour le traitement numérique, car de nombreuses opérations de modélisation nécessitent des images de taille uniforme. Ainsi, le redimensionnement des images pour les adapter à une taille commune, telle que (160, 160, 3), est essentiel pour garantir la cohérence dans l'ensemble du dataset.
+
+Cependant, il est important de noter que différentes tailles de redimensionnement peuvent être utilisées en fonction des besoins spécifiques de l'application. Par exemple, une taille plus petite peut être privilégiée pour une meilleure vitesse de traitement, tandis qu'une taille plus grande peut être préférable pour une qualité visuelle supérieure.
+
+En fin de compte, le choix de la taille de redimensionnement dépend des compromis entre la qualité, la vitesse et les ressources disponibles. Il est également judicieux de générer plusieurs versions du dataset avec différentes tailles de redimensionnement pour répondre à diverses exigences d'analyse et d'apprentissage profond.
+
+
+### <a name="sous-section-24"></a>[Ration H/L & Canaux](#sous-section-24)
+![logo](/images/hist_pie.png)
 
 
 ## Strategies:
