@@ -209,6 +209,22 @@ Sur cette figure, les différentes étapes de la segmentation d'image sont déta
 ###  <a name="sous-section-34">[Augmentation de données](#sous-section-34)
 ![logo](/images/img_aug.png)
 
+Dans ce projet, deux méthodes différentes avec TensorFlow ont été expérimentées pour augmenter les données :
+
+> La première méthode vise à résoudre le problème de disparité des classes dans le dataset en équilibrant les classes. En d'autres termes, toutes les classes ont le même nombre d'échantillons d'images, soit environ `5000` images par classe, ce qui représente au total `60000` images pour l'ensemble du dataset.
+
+> La deuxième approche consiste à charger les données progressivement dans le modèle en générant un flux de données aléatoire.
+
+Les modifications apportées à chaque image dans le cadre de ces deux approches comprennent :
+- La rotation (360°)
+- Le recadrage
+- Le zoom
+- De légères modifications de couleur
+- La normalisation
+
+La figure ci-dessus illustre la première méthode, où à partir d'une image originale, 18 images différentes ont été générées.
+
+
 ###  <a name="sous-section-35">[Création des ensembles d'entraînement, de validation et de test](#sous-section-35)
 
 
