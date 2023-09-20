@@ -92,7 +92,7 @@ Le jeu de données comprend les éléments suivants :
 |---------------|-------------|------------------|----------------|---------------|----------------|--------------|---------------|
 |  __[253]()__  | __[762]()__ | __[462.6]()__    | __[457.5]()__  | __[179.3]()__ | __[300.3]()__  |__[583.8]()__ | __[283.5]()__ |
 
-![logo](/images/all_images_1.png)
+![logo](/images/boxplots.png)
 
 ## <a name="section-2"></a>[Analyse exploratoire des données (EDA)](#section-2)
 ### <a name="sous-section-20"></a>[Visualisation des images de différentes classes](#sous-section-20)
