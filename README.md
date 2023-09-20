@@ -192,7 +192,7 @@ La normalisation des données est une étape fondamentale pour mettre toutes les
 Cette étape de normalisation garantit que le modèle peut apprendre efficacement à partir des données sans être perturbé par des valeurs d'échelle différentes. Elle contribue à stabiliser le processus d'entraînement, minimiser la variance et à améliorer la performance globale du modèle de deep learning en permettant une convergence plus rapide et plus stable lors de l'optimisation.
 
 ###  <a name="sous-section-33">[Segmentation sémantique de l'image](#sous-section-33)
-![logo](/images/all_images_1.png)
+![logo](/images/all_process.png)
 
 Sur cette figure, les différentes étapes de la segmentation d'image sont détaillées :
 
