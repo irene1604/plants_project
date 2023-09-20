@@ -16,8 +16,8 @@
 - [Prétraitement des données](#section-3)
   - [Redimensionnement des images](#sous-section-31)
   - [Normalisation des valeurs de pixel](#sous-section-32)
-  - [Augmentation de données](#sous-section-33)
-  - [Segmentation de l'image sémantique](#sous-section-34)
+  - [Segmentation sémantique de l'image](#sous-section-33)
+  - [Augmentation de données](#sous-section-34)
   - [Création des ensembles d'entraînement, de validation et de test](#sous-section-35)
 - [Construction et entraînement du modèle](#section-4)
   - [Sélection de l'architecture du modèle (CNN, DNN, MLP etc..)](#sous-section-41)
@@ -170,7 +170,7 @@ Sur la figure ci-dessus, sont représentées 12 histogrammes différents regroup
 Il est important de noter que pour effectuer la segmentation des couleurs, plusieurs pics doivent apparaître dans ces histogrammes pour mieux catégoriser les couleurs. Ainsi, plus un histogramme présente de pics, plus il est facile de distinguer les couleurs apparentes et plus il est facile de créer la fragmentation. En observant davantage les figures ci-dessus, on peut se rendre compte que les histogrammes obtenus dans l'espace **RGB-LAB**, contrairement à l'espace **RGB**, peuvent inclure des valeurs négatives, ce qui indique que le format de couleurs n'est pas RGB, mais plutôt **RGB-LAB**. Cela est particulièrement important pour comprendre les propriétés des couleurs dans ce contexte.
 Notre segmentation sur l'image originale (RGB) a été effectuée sur ce canal (canal 1), comme vous le verrez par la suite.
 
-Nous verrons dans la section [Prétraitement des données](#section-3) comment choisir :
+Nous verrons dans la section [Segmentation sémantique de l'image](#sous-section-33) comment choisir :
 - le canal optimal pour créer un filtre ultra puissant permettant de débruiter une image en profondeur.
 - le choix du domaine de valeurs pour un nettoyage en profondeur 
 
@@ -187,11 +187,11 @@ Pour eviter l'explosion du gradient lors de l'optimisation du model de DL il est
 
 Afin d'éviter l'explosion du gradient lors de l'optimisation du modèle de deep learning, il est impératif de normaliser les données. Dans le cadre de ce dataset, cette normalisation a été effectuée en divisant toutes les valeurs de pixel par **255.**.
 
-La normalisation des données est une étape fondamentale pour mettre toutes les caractéristiques à la même échelle, ce qui facilite la convergence de l'algorithme d'optimisation (**Descente du gradient**) lors de l'entraînement du modèle. En divisant les valeurs par 255, nous ramenons les pixels à une échelle de -1 à 1 (RGR2-LAB) or 0 et 1(RGB), ce qui est particulièrement important dans le cas des images en couleurs où chaque canal de couleur (rouge, vert, bleu) varie de 0 à 255.
+La normalisation des données est une étape fondamentale pour mettre toutes les caractéristiques à la même échelle, ce qui facilite la convergence de l'algorithme d'optimisation (**Descente du gradient**) lors de l'entraînement du modèle. En divisant les valeurs par 255, nous ramenons les pixels à une échelle de -1 à 1 **(RGR2-LAB)** or 0 et 1 **(RGB)**, ce qui est particulièrement important dans le cas des images en couleurs où chaque canal de couleur (rouge, vert, bleu) varie de 0 à 255.
 
 Cette étape de normalisation garantit que le modèle peut apprendre efficacement à partir des données sans être perturbé par des valeurs d'échelle différentes. Elle contribue à stabiliser le processus d'entraînement, minimiser la variance et à améliorer la performance globale du modèle de deep learning en permettant une convergence plus rapide et plus stable lors de l'optimisation.
 
-###  <a name="sous-section-33">[Segmentation de l'image sémantique](#sous-section-33)
+###  <a name="sous-section-33">[Segmentation sémantique de l'image](#sous-section-33)
 ![logo](/images/all_images_1.png)
 
 Sur cette figure, les différentes étapes de la segmentation d'image sont détaillées :

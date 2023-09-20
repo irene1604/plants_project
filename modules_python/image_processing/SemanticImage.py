@@ -173,7 +173,7 @@ def SemanticImage(
                         if k == 0 : axes[k, idd].set_title(legend[j], fontsize="small")
                         idd += 1
                     else : break
-                    
+
             if error is None:
                 plt.savefig(f"./images/{fig_name}")
                 plt.show()
