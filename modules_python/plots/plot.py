@@ -66,21 +66,17 @@ def hist_hist_plot(
         else:
             error = True 
             break
-
+    
     if error is None:
         if bonding_box is True: 
             rect_box(axes=axes, x=x, y=y, xmin=xmin, xmax=xmax, 
-                     ymin=ymin, ymax=ymax, text=text, annot=annot,s=s)
+                     ymin=ymin, ymax=ymax, text=text, annot=annot,s=s, save=save)
         else: pass
-
         plt.show()
-        plt.savefig("./images/hist_hist.png") if save is True else ""
-        return [ax for ax in axes]
     else:
         print("ERROR")
         for i in range(len(X)):
             axes[i].remove()  
-        return None
 
 def hist_bar_plot(
         X       : list, 
@@ -292,7 +288,8 @@ def rect_box(
         color   : str  = 'k',
         s       : list = ['$range = [90, 250]$', '$range = [90, 250]$'],
         text    : bool = False ,
-        annot   : bool = False
+        annot   : bool = False, 
+        save    : bool = False
         ):
     
     for i, ax in enumerate( axes ):
@@ -307,5 +304,6 @@ def rect_box(
         if annot is True:
             ax.annotate(text="bonding box", xy=(xmax[i], ymax[i]-40), arrowprops=dict(arrowstyle='->', color="k"), 
                      xytext=(xmax[i] + 150, ymax[i]-40), color="b", weight='bold' )
-    
+            
+    if save is True : plt.savefig("./images/hist_hist.png") 
     plt.show() 

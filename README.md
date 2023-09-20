@@ -9,9 +9,9 @@
 - [Analyse exploratoire des données (EDA)](#section-2)
   - [Visualisation des images de différentes classes](#sous-section-20)
   - [Pixelisation & Répartition des classes](#sous-section-21)
-  - [Statistiques descriptives sur les données](#sous-section-23)
-  - [Distribution des tailles d'images](#sous-section-24)
-  - [Analyse de la couleur des images](#sous-section-25)
+  - [Statistiques descriptives sur les données](#sous-section-22)
+  - [Distribution des tailles d'images](#sous-section-23)
+  - [Analyse de la couleur des images](#sous-section-24)
 - [Prétraitement des données](#section-3)
   - [Redimensionnement des images](#sous-section-31)
   - [Normalisation des valeurs de pixel](#sous-section-32)
@@ -118,6 +118,10 @@ Les deux graphiques ci-dessus présentent la répartition du nombre de pixels et
 > On remarque également que le nombre d'exemplaires varie d'une espèce à l'autre, ce qui se reflète par une disparité significative dans l'histogramme en barres. Cette disparité démontre que les données ne sont pas distribuées uniformément dans ce dataset. En effet, nous avons des classes dominantes possédant 2 à 3 fois plus de valeurs que les classes minoritaires. Cette disparité peut poser des défis importants lors de la construction et de l'entraînement d'un modèle de deep learning, car il peut avoir tendance à être biaisé en faveur des classes majoritaires, négligeant ainsi les classes minoritaires. Dans le cas des données tabulaires, des techniques d'équilibrage des données, telles que la sur-échantillonnage (oversampling) des classes minoritaires ou la sous-échantillonnage (undersampling) des classes majoritaires, peuvent être nécessaires pour garantir que le modèle apprend efficacement à discriminer toutes les classes avec une précision équilibrée. Dans ce cas précis il est évident que le data augmentation sera au centre de ce processus pour obtenir un équilibre entre les classes.
 
 Afin d'atteindre l'objectif d'une taille d'échantillonnage uniforme, la normalisation des données est cruciale. La data augmentation joue un rôle fondamental dans ce processus. En utilisant des techniques de data augmentation telles que la rotation, le redimensionnement et le recadrage, changement léger de pixels, nous pouvons générer des versions modifiées des images existantes, les rendant cohérentes en termes de taille. Cela permet non seulement d'améliorer la qualité et la diversité du jeu de données, mais aussi d'augmenter la robustesse du modèle de **deep learning** en l'entraînant sur une variété d'angles et de perspectives des données. Ainsi, un modèle formé sur un jeu de données normalisé et augmenté est plus susceptible de généraliser correctement lorsqu'il est confronté à de nouvelles données.
+
+### <a name="sous-section-23"></a>[Distribution des tailles d'images](#sous-section-23)
+![logo](/images/hist_hist.png)
+
 
 ## Strategies:
 
